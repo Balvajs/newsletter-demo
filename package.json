@@ -1,0 +1,28 @@
+{
+  "name": "newsletter-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "next": "15.5.3"
+  },
+  "devDependencies": {
+    "typescript": "5.9.2",
+    "@types/node": "24.5.2",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "@tailwindcss/postcss": "4.1.13",
+    "tailwindcss": "4.1.13",
+    "eslint": "9.36.0",
+    "eslint-config-next": "15.5.3",
+    "@eslint/eslintrc": "3.3.1"
+  },
+  "packageManager": "pnpm@10.14.0-0+sha512.2cd47a0cbf5f1d1de7693a88307a0ede5be94e0d3b34853d800ee775efbea0650cb562b77605ec80bc8d925f5cd27c4dfe8bb04d3a0b76090784c664450d32d6"
+}
