@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  excerpt     String?  // Optional short description
+  slug        String   @unique
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  scheduledFor DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Email tracking
+  emailSent   Boolean  @default(false)
+  emailSentAt DateTime?
+  
+  // Relations
+  emailLogs   EmailLog[]
+
+  @@index([createdAt])
+  @@index([publishedAt])
+  @@index([status])
+}
+
+model Subscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?  // Added name field
+  isActive    Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+  unsubscribedAt DateTime?
+  
+  // For unsubscribe tokens
+  unsubscribeToken String @unique @default(cuid())
+
+  @@index([isActive])
+  @@index([subscribedAt])
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+}
+
+// For tracking email deliveries and failures
+model EmailLog {
+  id        String   @id @default(cuid())
+  postId    String
+  email     String
+  status    EmailStatus
+  error     String?
+  sentAt    DateTime @default(now())
+  
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
